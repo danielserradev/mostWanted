@@ -10,16 +10,26 @@ function app(people) {
   switch (searchType) {
     case 'yes':
       searchResults = searchByName(people);
+	  mainMenu(searchResults, people);
       break;
     case 'no':
-      promptFor("Please enter the number that corrisponds to the information you know about the individual 1: Gender 2: Date of Birth 3: Height 4: Weight 5: Eye Color 6: Occupation");
-      searchResults = newFunction(people);
+      let otherSearch = promptFor("Do you Know any other information about the person? Enter 'yes' or 'no'", yesNo).toLowerCase();
+      switch (otherSearch){
+	  	  case 'yes':
+			searchResults = whichInfo(people);
+			break;
+		  case 'no':
+		  default:
+			app(people); // restart app
+			break;
+	  }
       break;
     default:
       app(people); // restart app
       break;
   }
 
+<<<<<<< Updated upstream
   if (people.length == 1) { //09-19-19 tlc
     // Call the mainMenu function ONLY after you find the SINGLE person you are looking for
     mainMenu(searchResults, people);
@@ -27,6 +37,10 @@ function app(people) {
   else {
     app(people);
   }
+=======
+  // Call the mainMenu function ONLY after you find the SINGLE person you are looking for
+  //mainMenu(searchResults, people);
+>>>>>>> Stashed changes
 }
 
 // Menu function to call once you find who you are looking for
@@ -124,6 +138,7 @@ function chars(input) {
   return tempResult;
 }
 
+<<<<<<< Updated upstream
 // helper function to pass in as default promptFor validation
 function nums(input) {
   let tempResult = true;
@@ -141,5 +156,38 @@ function nums(input) {
 
 function newFunction() {
 
+=======
+function whichInfo(people) {
+	let otherType = promptFor("Please enter 'gender' if you know the gender, 'dob' if you know the date of birth", chars);
+	let otherResults;
+	switch(otherType){
+		case "gender":
+		otherResults = searchByGender(people);
+		break;
+		case "dob":
+		console.log("dob");
+		break;
+		defualt: 
+		return filterInfo(people);
+	}	
+	console.log("hello");
+	//mainMenu(otherResults, people);
+>>>>>>> Stashed changes
 }
 
+function searchByGender(people){
+let gender = promptFor("is thier gender 'male' or 'female' ?", chars);
+let genderResults;
+
+let foundGender = people.filter(function(person){
+	if(person.gender.toLowerCase() === gender.toLowerCase()){
+		return true;
+	}
+	else{
+		return false;
+	}
+	
+});
+console.log(foundGender);
+//mainMenu(genderResults, people)
+}
