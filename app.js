@@ -14,7 +14,8 @@ function app(people){
       searchResults = searchByName(people);
       break;
     case 'no':
-      // TODO: search by traits
+      promptFor("Please enter the number that corrisponds to the information you know about the individual 1: Gender 2: Date of Birth 3: Height 4: Weight 5: Eye Color 6: Occupation");
+	  searchResults = newFunction(people); 
       break;
       default:
     app(people); // restart app
@@ -39,7 +40,7 @@ function mainMenu(person, people){
 
   switch(displayOption){
     case "info":
-    // TODO: get person's info
+    console.log(person. firstName + " " + person.lastName + ",s date of birth is " + person.dob + ". Their gender is " + person.gender + ", thier eye color is " + person.eyeColor + ",they have a height of " + person.height + " inches, and a weight of " + person.weight + " pounds. Their job title is " + person.occupation);
     break;
     case "family":
     // TODO: get person's family
@@ -62,15 +63,14 @@ function searchByName(people){
   let lastName = promptFor("What is the person's last name?", chars);
 
   let foundPerson = people.filter(function(person){
-    if(person.firstName === firstName && person.lastName === lastName){
-      return true;
+    if(person.firstName.toLowerCase() === firstName.toLowerCase() && person.lastName.toLowerCase() === lastName.toLowerCase()){
+      return true;	  
     }
     else{
       return false;
     }
   })
-  // TODO: find the person using the name they entered
-  return foundPerson;
+  return foundPerson[0];
 }
 
 // alerts a list of people
@@ -90,9 +90,11 @@ function displayPerson(person){
 }
 
 // function that prompts and validates user input
+
 function promptFor(question, valid){
+let response = "";
   do{
-    let response = prompt(question).trim();
+    response = prompt(question).trim();
   } while(!response || !valid(response));
   return response;
 }
@@ -106,3 +108,8 @@ function yesNo(input){
 function chars(input){
   return true; // default validation only
 }
+
+function newFunction(){
+
+}
+
