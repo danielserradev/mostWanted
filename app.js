@@ -2,7 +2,6 @@
 /*
 Build all of your functions for displaying and gathering information below (GUI).
 */
-const charsValidationArray = []
 
 // app is the function called to start the entire application
 function app(people) {
@@ -21,8 +20,13 @@ function app(people) {
       break;
   }
 
-  // Call the mainMenu function ONLY after you find the SINGLE person you are looking for
-  mainMenu(searchResults, people);
+  if (people.length == 1) { //09-19-19 tlc
+    // Call the mainMenu function ONLY after you find the SINGLE person you are looking for
+    mainMenu(searchResults, people);
+  }
+  else {
+    app(people);
+  }
 }
 
 // Menu function to call once you find who you are looking for
@@ -112,6 +116,21 @@ function chars(input) {
     let asciiChar = 0;
     asciiChar = input.charCodeAt(i);
     if (!(asciiChar > 96 && asciiChar < 122)) {
+      tempResult = false;
+      break;
+    }
+  }
+  //return true; // default validation only
+  return tempResult;
+}
+
+// helper function to pass in as default promptFor validation
+function nums(input) {
+  let tempResult = true;
+  for (let i = 0; i < input.length; i++) {
+    let asciiChar = 0;
+    asciiChar = input.charCodeAt(i);
+    if (!(asciiChar > 48 && asciiChar < 57)) {
       tempResult = false;
       break;
     }
