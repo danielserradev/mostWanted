@@ -14,18 +14,6 @@ function app(people) {
       break;
     case 'no':
       let otherSearch = promptFor("Do you Know any other information about the person? Enter 'yes' or 'no'", yesNo).toLowerCase();
-<<<<<<< HEAD
-      switch (otherSearch){
-	  	  case 'yes':
-			searchResults = whichInfo(people);
-
-			break;
-		  case 'no':
-		  default:
-			app(people); // restart app
-			break;
-	  }
-=======
       switch (otherSearch) {
         case 'yes':
           searchResults = whichInfo(people);
@@ -35,20 +23,15 @@ function app(people) {
           app(people); // restart app
           break;
       }
->>>>>>> 98c4cb3a1435dff28e93b8bb7a297eebe1ceea5c
       break;
     default:
       app(people); // restart app
       break;
   }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 98c4cb3a1435dff28e93b8bb7a297eebe1ceea5c
   if (people.length == 1) { //09-19-19 tlc
-	 //Call the mainMenu function ONLY after you find the SINGLE person you are looking for
-	 mainMenu(searchResults, people);
+    //Call the mainMenu function ONLY after you find the SINGLE person you are looking for
+    mainMenu(searchResults, people);
   }
   else {
     app(people);
@@ -178,106 +161,106 @@ function nums(input) {
 
 
 function whichInfo(people) {
-	let otherType = promptFor("Please enter 'gender' if you know the gender, 'height' if you know the height, weight, eyecolor, occupation", chars);
-	let otherResults;
-	switch(otherType){
-		case "gender":
-		otherResults = searchByGender(people);
-		break;
-		case "height":
-		otherResults = searchByHeight(people);
-		break;
-		case "weight":
-		otherResults = searchByWeight(people);
-		break;
-		case "eyecolor":
-		otherResults = searchByEyeColor(people);
-		break;
-		case "occupation":
-		otherResults = searchByOccupation(people);
-		break;
-		defualt: 
-		return filterInfo(people);
-	}
-	displayPeople(otherResults);
+  let otherType = promptFor("Please enter 'gender' if you know the gender, 'height' if you know the height, weight, eyecolor, occupation", chars);
+  let otherResults;
+  switch (otherType) {
+    case "gender":
+      otherResults = searchByGender(people);
+      break;
+    case "height":
+      otherResults = searchByHeight(people);
+      break;
+    case "weight":
+      otherResults = searchByWeight(people);
+      break;
+    case "eyecolor":
+      otherResults = searchByEyeColor(people);
+      break;
+    case "occupation":
+      otherResults = searchByOccupation(people);
+      break;
+      defualt:
+      return filterInfo(people);
+  }
+  displayPeople(otherResults);
 
-	console.log("hello");
-	//mainMenu(otherResults, people);
+  console.log("hello");
+  //mainMenu(otherResults, people);
 }
 
-function searchByGender(people){
-let gender = promptFor("is thier gender 'male' or 'female' ?", chars);
+function searchByGender(people) {
+  let gender = promptFor("is thier gender 'male' or 'female' ?", chars);
 
 
-let foundGender = people.filter(function(person){
-	if(person.gender.toLowerCase() === gender.toLowerCase()){
-		return true;
-	}
-	else{
-		return false;
-	}
-});
-return foundGender;
+  let foundGender = people.filter(function (person) {
+    if (person.gender.toLowerCase() === gender.toLowerCase()) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  });
+  return foundGender;
 }
-function searchByHeight(people){
-let height = parseInt(promptFor("Please enter the height in inches?", nums));
- 
+function searchByHeight(people) {
+  let height = parseInt(promptFor("Please enter the height in inches?", nums));
 
-let foundHeight = people.filter(function(person){
-	if(person.height === height){
-		return true;
-	}
-	else{
-		return false;
-	}	
-});
-return foundHeight;
+
+  let foundHeight = people.filter(function (person) {
+    if (person.height === height) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  });
+  return foundHeight;
 }
-function searchByWeight(people){
-let weight = parseInt(promptFor("Please enter the Weight?", nums));
- 
+function searchByWeight(people) {
+  let weight = parseInt(promptFor("Please enter the Weight?", nums));
 
-let foundWeight = people.filter(function(person){
-	if(person.weight === weight){
-		return true;
-	}
-	else{
-		return false;
-	}	
-});
-return foundWeight;
+
+  let foundWeight = people.filter(function (person) {
+    if (person.weight === weight) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  });
+  return foundWeight;
 }
-function searchByEyeColor(people){
-let eyeColor = (promptFor("Please enter the individuals eyecolor?", chars));
- 
+function searchByEyeColor(people) {
+  let eyeColor = (promptFor("Please enter the individuals eyecolor?", chars));
 
-let foundEyeColor = people.filter(function(person){
-	if(person.eyeColor === eyeColor){
-		return true;
-	}
-	else{
-		return false;
-	}	
-});
-return foundEyeColor;
+
+  let foundEyeColor = people.filter(function (person) {
+    if (person.eyeColor === eyeColor) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  });
+  return foundEyeColor;
 }
-function searchByOccupation(people){
-let occupation = (promptFor("Please enter the individuals occupation?", chars));
- 
+function searchByOccupation(people) {
+  let occupation = (promptFor("Please enter the individuals occupation?", chars));
 
-let foundOccupation = people.filter(function(person){
-	if(person.occupation === occupation){
-		return true;
-	}
-	else{
-		return false;
-	}	
-});
-return foundOccupation;
+
+  let foundOccupation = people.filter(function (person) {
+    if (person.occupation === occupation) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  });
+  return foundOccupation;
 }
-  
 
-function getDescendants(person, people) {
+
+function getDescendants(person, people, foundDescendants = []) {
   //filter people on (people.parents.length > 0)
   //add to an array of people having parents
   //for each of those people having parents, return true if people[i].parents[j] === person.id;
@@ -285,7 +268,7 @@ function getDescendants(person, people) {
   //getDescendants should then return people filtered on the ids the foundDescendants.
 
   //default
-  let foundDescendants = [];
+
   let tempPeopleWithParents = people.filter(function (people) {
     if (people.parents.length > 0) {
       return true;
@@ -303,7 +286,7 @@ function getDescendants(person, people) {
         //foundDescendants.push(tempPeopleWithParents[i].id);
         foundDescendants.push(tempPeopleWithParents[i]);
         //these foundDescendants may also be somebody's parent... so recursion???
-        //foundDescendants = getDescendants(tempPeopleWithParents[i], tempPeopleWithParents);
+        foundDescendants = getDescendants(tempPeopleWithParents[i], tempPeopleWithParents, foundDescendants);
       }
     }
   }
