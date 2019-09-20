@@ -10,10 +10,11 @@ function app(people) {
   switch (searchType) {
     case 'yes':
       searchResults = searchByName(people);
-	  mainMenu(searchResults, people);
+      mainMenu(searchResults, people);
       break;
     case 'no':
       let otherSearch = promptFor("Do you Know any other information about the person? Enter 'yes' or 'no'", yesNo).toLowerCase();
+<<<<<<< HEAD
       switch (otherSearch){
 	  	  case 'yes':
 			searchResults = whichInfo(people);
@@ -24,13 +25,27 @@ function app(people) {
 			app(people); // restart app
 			break;
 	  }
+=======
+      switch (otherSearch) {
+        case 'yes':
+          searchResults = whichInfo(people);
+          break;
+        case 'no':
+        default:
+          app(people); // restart app
+          break;
+      }
+>>>>>>> 98c4cb3a1435dff28e93b8bb7a297eebe1ceea5c
       break;
     default:
       app(people); // restart app
       break;
   }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 98c4cb3a1435dff28e93b8bb7a297eebe1ceea5c
   if (people.length == 1) { //09-19-19 tlc
 	 //Call the mainMenu function ONLY after you find the SINGLE person you are looking for
 	 mainMenu(searchResults, people);
@@ -61,6 +76,17 @@ function mainMenu(person, people) {
       break;
     case "descendants":
       // TODO: get person's descendants
+      //IN PROGRESS - Trevor
+      let descendantResults = [];
+      descendantResults = getDescendants(person, people);
+      if (descendantResults.length > 0) {
+        //display their names
+        //for (let i = 0; i < descendantResults.length; i++) {
+        //console.log(descendantResults[i].firstName + " " + descendantResults[i].lastName + " is a descendant of " + person.firstName + " " + person.lastName);
+        console.log("Here is a list of descendants: ");
+        displayPeople(descendantResults);
+        //}
+      }
       break;
     case "restart":
       app(people); // restart
@@ -134,6 +160,7 @@ function chars(input) {
   //return true; // default validation only
   return tempResult;
 }
+
 // helper function to pass in as default promptFor validation
 function nums(input) {
   let tempResult = true;
@@ -247,4 +274,41 @@ let foundOccupation = people.filter(function(person){
 	}	
 });
 return foundOccupation;
+}
+  
+
+function getDescendants(person, people) {
+  //filter people on (people.parents.length > 0)
+  //add to an array of people having parents
+  //for each of those people having parents, return true if people[i].parents[j] === person.id;
+  //if true is returned, add the people.ID values to a new array called foundDescendants
+  //getDescendants should then return people filtered on the ids the foundDescendants.
+
+  //default
+  let foundDescendants = [];
+  let tempPeopleWithParents = people.filter(function (people) {
+    if (people.parents.length > 0) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  });
+
+  //tempPeopleWithParents is an array of people having parents
+  for (let i = 0; i < tempPeopleWithParents.length; i++) {
+    //if (tempPeopleWithParents[i].id === person.id) {
+    for (let j = 0; j < Object(tempPeopleWithParents[i])["parents"].length; j++) {
+      if (person.id === Object(tempPeopleWithParents[i])["parents"][j]) {
+        //foundDescendants.push(tempPeopleWithParents[i].id);
+        foundDescendants.push(tempPeopleWithParents[i]);
+        //these foundDescendants may also be somebody's parent... so recursion???
+        //foundDescendants = getDescendants(tempPeopleWithParents[i], tempPeopleWithParents);
+      }
+    }
+  }
+
+
+
+  return foundDescendants;
 }
