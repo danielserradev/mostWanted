@@ -3,34 +3,53 @@
 Build all of your functions for displaying and gathering information below (GUI).
 */
 // app is the function called to start the entire application
-function app(people) {
+function recursion(people){
   let searchType = promptFor("Do you know the name of the person you are looking for? Enter 'yes' or 'no'", yesNo).toLowerCase();
   let searchResults;
   switch (searchType) {
-    case 'yes':
+    case "yes":
       searchResults = searchByName(people);
       mainMenu(searchResults, people);
       break;
-    case 'no':
-      let otherSearch = promptFor("Do you Know any other information about the person? Enter 'yes' or 'no'", yesNo).toLowerCase();
-      switch (otherSearch) {
-        case 'yes':
-          searchResults = whichInfo(people);
-          break;
-        case 'no':
-        default:
-          whichInfo(people); // restart app
-          break;
-    }
-  if (people.length == 1) { //09-19-19 tlc
-    //Call the mainMenu function ONLY after you find the SINGLE person you are looking for
-    mainMenu(searchResults, people);
-  }
-  else {
+    case "no":
     whichInfo(people);
-  }
+    default:
+    whichInfo(people);
+    break;
+    }
 }
+function app(people) {
+  // let searchType = promptFor("Do you know the name of the person you are looking for? Enter 'yes' or 'no'", yesNo).toLowerCase();
+  // let searchResults;
+  // switch (searchType) {
+  //   case 'yes':
+  //     searchResults = searchByName(people);
+  //     mainMenu(searchResults, people);
+  //     break;
+  //   case 'no':
+  //     let otherSearch = promptFor("Do you Know any other information about the person? Enter 'yes' or 'no'", yesNo).toLowerCase();
+  //     switch (otherSearch) {
+  //       case 'yes':
+  //         searchResults = whichInfo(people);
+  //         break;
+  //       case 'no':
+  //       default:
+  //         whichInfo(people); // restart app
+  //         break;
+  //   }
+  // if (people.length == 1) { //09-19-19 tlc
+  //   //Call the mainMenu function ONLY after you find the SINGLE person you are looking for
+  //   displayPerson(person[0]);
+  //   mainMenu(searchResults, people);
+  // }
+  // else {
+  //   whichInfo(people);
+  // }
+// }
+
+// mainMenu(searchResults, people);
 }
+
 // Menu function to call once you find who you are looking for
 function mainMenu(person, people) {
 
@@ -63,6 +82,10 @@ function mainMenu(person, people) {
         displayPeople(descendantResults);
         //}
       }
+      else{
+        alert("this person has no descendants");
+        mainMenu(person, people);
+      }
       break;
     case "restart":
       whichInfo(people); // restart
@@ -73,21 +96,6 @@ function mainMenu(person, people) {
       return mainMenu(person, people); // ask again
   }
 }
-// function searchByType(people) {
-//   let searchType = promptFor("Based on the list below, Please enter the information that you know about the individual you are looking for. \n First or Last name \n Gender \n Date of Birth \n Eye Color \n Occupation \n ID # \n Height/Weight", chars);
-
-//   let foundPerson = people.filter(function (person) {
-//     if (person.firstName.toLowerCase() === firstName.toLowerCase() && person.lastName.toLowerCase() === lastName.toLowerCase()) {
-//       return true;
-//     }
-//     else {
-//       return false;
-//     }
-//   })
-//   // TODO: find the person using the name they entered
-//   //return foundPerson;
-//   return foundPerson[0];//09-19-19 tlc
-//  }
 function searchByName(people) {
   let firstName = promptFor("What is the person's first name?", chars);
   let lastName = promptFor("What is the person's last name?", chars);
@@ -168,9 +176,18 @@ function nums(input) {
 
 
 function whichInfo(people) {
-	let otherType = promptFor("Based on the list below, Please enter the information that you know about the individual you are looking for. \n First or Last name \n gender \n Date of Birth \n eyecolor \n occupation \n idnumber or spouse \n height or weight", chars, nums);
+	let otherType = promptFor("Based on the list below, Please enter the information that you know about the individual you are looking for. \n name \n gender \n Date of Birth \n eyecolor \n occupation \n idnumber or spouseid \n height or weight", chars, nums, yesNo);
 	let otherResults;
 	switch(otherType){
+
+
+
+    case "name":
+    otherResults = searchByName(people);
+    mainMenu(otherResults, people);
+    break;
+
+
 		case "gender":
 		otherResults = searchByGender(people);
 		break;
@@ -189,14 +206,15 @@ function whichInfo(people) {
     case "idnumber":
     otherResults = searchByIdNumber(people);
     break;
-    case "spouse":
+    case "spouseid":
     otherResults = searchBySpouseIdNumber(people);
     break;
-		defualt: 
+		default:
 		return filterInfo(people);
 	}
-	displayPeople(otherResults);
-  app(otherResults);
+  displayPeople(otherResults);
+  recursion(otherResults);
+  whichInfo(otherResults);
 }
 
 function searchByGender(people){
@@ -265,8 +283,8 @@ return foundOccupation;
 }
 
 function searchByIdNumber(people){
-  let id = parseInt(promptFor("Please enter the id #?", nums)); 
-  let foundId = people.filter(function(person){
+  let id = parseInt(promptFor("Please enter the id #?", nums));  
+    let foundId = people.filter(function(person){
     if(person.id == id){
       
       return true;
@@ -276,9 +294,10 @@ function searchByIdNumber(people){
     }	
   });
   mainMenu(foundId[0]);
-  }
+}
+
   function searchBySpouseIdNumber(people){
-    let spouseId = parseInt(promptFor("Please enter the id #?", nums)); 
+    let spouseId = parseInt(promptFor("Please enter the spouse's id #?", nums)); 
     let foundSpouseId = people.filter(function(person){
       if(person.currentSpouse == spouseId){
         
@@ -288,8 +307,8 @@ function searchByIdNumber(people){
         return false;
       }	
     });
-    
-    mainMenu(foundSpouseId[0]);
+    let spouse = foundSpouseId.currentSpouse;
+    searchByIdNumber(people, true);
     }
 
 
@@ -316,9 +335,6 @@ function getDescendants(person, people, foundDescendants = []) {
         foundDescendants = getDescendants(tempPeopleWithParents[i], tempPeopleWithParents, foundDescendants);
       }
     }
-  }
-
-
-
+  } 
   return foundDescendants;
 }
