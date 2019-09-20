@@ -2,7 +2,6 @@
 /*
 Build all of your functions for displaying and gathering information below (GUI).
 */
-
 // app is the function called to start the entire application
 function app(people) {
   let searchType = promptFor("Do you know the name of the person you are looking for? Enter 'yes' or 'no'", yesNo).toLowerCase();
@@ -14,47 +13,24 @@ function app(people) {
       break;
     case 'no':
       let otherSearch = promptFor("Do you Know any other information about the person? Enter 'yes' or 'no'", yesNo).toLowerCase();
-<<<<<<< HEAD
-      switch (otherSearch){
-	  	  case 'yes':
-			searchResults = whichInfo(people);
-
-			break;
-		  case 'no':
-		  default:
-			app(people); // restart app
-			break;
-	  }
-=======
       switch (otherSearch) {
         case 'yes':
           searchResults = whichInfo(people);
           break;
         case 'no':
         default:
-          app(people); // restart app
+          whichInfo(people); // restart app
           break;
-      }
->>>>>>> 98c4cb3a1435dff28e93b8bb7a297eebe1ceea5c
-      break;
-    default:
-      app(people); // restart app
-      break;
-  }
-
-<<<<<<< HEAD
-
-=======
->>>>>>> 98c4cb3a1435dff28e93b8bb7a297eebe1ceea5c
+    }
   if (people.length == 1) { //09-19-19 tlc
 	 //Call the mainMenu function ONLY after you find the SINGLE person you are looking for
 	 mainMenu(searchResults, people);
   }
   else {
-    app(people);
+    whichInfo(people);
   }
 }
-
+}
 // Menu function to call once you find who you are looking for
 function mainMenu(person, people) {
 
@@ -89,7 +65,7 @@ function mainMenu(person, people) {
       }
       break;
     case "restart":
-      app(people); // restart
+      whichInfo(people); // restart
       break;
     case "quit":
       return; // stop execution
@@ -97,7 +73,21 @@ function mainMenu(person, people) {
       return mainMenu(person, people); // ask again
   }
 }
+// function searchByType(people) {
+//   let searchType = promptFor("Based on the list below, Please enter the information that you know about the individual you are looking for. \n First or Last name \n Gender \n Date of Birth \n Eye Color \n Occupation \n ID # \n Height/Weight", chars);
 
+//   let foundPerson = people.filter(function (person) {
+//     if (person.firstName.toLowerCase() === firstName.toLowerCase() && person.lastName.toLowerCase() === lastName.toLowerCase()) {
+//       return true;
+//     }
+//     else {
+//       return false;
+//     }
+//   })
+//   // TODO: find the person using the name they entered
+//   //return foundPerson;
+//   return foundPerson[0];//09-19-19 tlc
+//  }
 function searchByName(people) {
   let firstName = promptFor("What is the person's first name?", chars);
   let lastName = promptFor("What is the person's last name?", chars);
@@ -167,7 +157,7 @@ function nums(input) {
   for (let i = 0; i < input.length; i++) {
     let asciiChar = 0;
     asciiChar = input.charCodeAt(i);
-    if (!(asciiChar > 48 && asciiChar < 57)) {
+    if (!(asciiChar > 47 && asciiChar < 58)) {
       tempResult = false;
       break;
     }
@@ -178,7 +168,7 @@ function nums(input) {
 
 
 function whichInfo(people) {
-	let otherType = promptFor("Please enter 'gender' if you know the gender, 'height' if you know the height, weight, eyecolor, occupation", chars);
+	let otherType = promptFor("Based on the list below, Please enter the information that you know about the individual you are looking for. \n First or Last name \n gender \n Date of Birth \n eyecolor \n occupation \n idnumber or spouse \n height or weight", chars, nums);
 	let otherResults;
 	switch(otherType){
 		case "gender":
@@ -195,20 +185,22 @@ function whichInfo(people) {
 		break;
 		case "occupation":
 		otherResults = searchByOccupation(people);
-		break;
+    break;
+    case "idnumber":
+    otherResults = searchByIdNumber(people);
+    break;
+    case "spouse":
+    otherResults = searchBySpouseIdNumber(people);
+    break;
 		defualt: 
 		return filterInfo(people);
 	}
 	displayPeople(otherResults);
-
-	console.log("hello");
-	//mainMenu(otherResults, people);
+  app(otherResults);
 }
 
 function searchByGender(people){
 let gender = promptFor("is thier gender 'male' or 'female' ?", chars);
-
-
 let foundGender = people.filter(function(person){
 	if(person.gender.toLowerCase() === gender.toLowerCase()){
 		return true;
@@ -219,10 +211,9 @@ let foundGender = people.filter(function(person){
 });
 return foundGender;
 }
+
 function searchByHeight(people){
 let height = parseInt(promptFor("Please enter the height in inches?", nums));
- 
-
 let foundHeight = people.filter(function(person){
 	if(person.height === height){
 		return true;
@@ -233,10 +224,9 @@ let foundHeight = people.filter(function(person){
 });
 return foundHeight;
 }
+
 function searchByWeight(people){
 let weight = parseInt(promptFor("Please enter the Weight?", nums));
- 
-
 let foundWeight = people.filter(function(person){
 	if(person.weight === weight){
 		return true;
@@ -247,10 +237,9 @@ let foundWeight = people.filter(function(person){
 });
 return foundWeight;
 }
-function searchByEyeColor(people){
-let eyeColor = (promptFor("Please enter the individuals eyecolor?", chars));
- 
 
+function searchByEyeColor(people){
+let eyeColor = promptFor("Please enter the individuals eyecolor?", chars);
 let foundEyeColor = people.filter(function(person){
 	if(person.eyeColor === eyeColor){
 		return true;
@@ -261,10 +250,9 @@ let foundEyeColor = people.filter(function(person){
 });
 return foundEyeColor;
 }
-function searchByOccupation(people){
-let occupation = (promptFor("Please enter the individuals occupation?", chars));
- 
 
+function searchByOccupation(people){
+let occupation = promptFor("Please enter the individuals occupation?", chars);
 let foundOccupation = people.filter(function(person){
 	if(person.occupation === occupation){
 		return true;
@@ -275,7 +263,34 @@ let foundOccupation = people.filter(function(person){
 });
 return foundOccupation;
 }
-  
+
+function searchByIdNumber(people){
+  let id = parseInt(promptFor("Please enter the id #?", nums)); 
+  let foundId = people.filter(function(person){
+    if(person.id == id){
+      
+      return true;
+    }
+    else{
+      return false;
+    }	
+  });
+  mainMenu(foundId[0]);
+  }
+  function searchBySpouseIdNumber(people){
+    let spouseId = parseInt(promptFor("Please enter the id #?", nums)); 
+    let foundSpouseId = people.filter(function(person){
+      if(person.currentSpouse == spouseId){
+        
+        return true;
+      }
+      else{
+        return false;
+      }	
+    });
+    
+    mainMenu(foundSpouseId[0]);
+    }
 
 function getDescendants(person, people) {
   //filter people on (people.parents.length > 0)
