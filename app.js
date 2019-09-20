@@ -60,6 +60,14 @@ function mainMenu(person, people) {
     case "descendants":
       // TODO: get person's descendants
       //IN PROGRESS - Trevor
+      let descendantResults = [];
+      descendantResults = getDescendants(person, people);
+      if (descendantResults.length > 0) {
+        //display their names
+        for (let i = 0; i < descendantResults.length; i++) {
+          console.log(descendantResults[i].firstName + " " + descendantResults[i].lastName + " is a descendant of " + person.firstName + " " + person.lastName);
+        }
+      }
       break;
     case "restart":
       app(people); // restart
@@ -186,4 +194,34 @@ function newFunction() {
     console.log(foundGender);
     //mainMenu(genderResults, people)
   }
+}
+
+function getDescendants(person, people) {
+  //filter people on (people.parents.length > 0)
+  //add to an array of people having parents
+  //for each of those people having parents, return true if people[i].parents[j] === person.id;
+  //if true is returned, add the people.ID values to a new array called foundDescendants
+  //getDescendants should then return people filtered on the ids the foundDescendants.
+
+  //default
+  let foundDescendants = [];
+  let tempPeopleWithParents = people.filter(function (people) {
+    if (people.parents.length > 0) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  });
+
+  //tempPeopleWithParents is an array of people having parents
+  for (let i = 0; i < tempPeopleWithParents.length; i++) {
+    if (tempPeopleWithParents[i].id === person.id) {
+      foundDescendants.push(tempPeopleWithParents[i]);
+      //these foundDescendants may also be somebody's parent... so recursion???
+      //getDescendants(tempPeopleWithParents[i], people);
+    }
+  }
+
+  return foundDescendants;
 }
