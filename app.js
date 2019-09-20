@@ -64,9 +64,11 @@ function mainMenu(person, people) {
       descendantResults = getDescendants(person, people);
       if (descendantResults.length > 0) {
         //display their names
-        for (let i = 0; i < descendantResults.length; i++) {
-          console.log(descendantResults[i].firstName + " " + descendantResults[i].lastName + " is a descendant of " + person.firstName + " " + person.lastName);
-        }
+        //for (let i = 0; i < descendantResults.length; i++) {
+        //console.log(descendantResults[i].firstName + " " + descendantResults[i].lastName + " is a descendant of " + person.firstName + " " + person.lastName);
+        console.log("Here is a list of descendants: ");
+        displayPeople(descendantResults);
+        //}
       }
       break;
     case "restart":
@@ -216,12 +218,18 @@ function getDescendants(person, people) {
 
   //tempPeopleWithParents is an array of people having parents
   for (let i = 0; i < tempPeopleWithParents.length; i++) {
-    if (tempPeopleWithParents[i].id === person.id) {
-      foundDescendants.push(tempPeopleWithParents[i]);
-      //these foundDescendants may also be somebody's parent... so recursion???
-      //getDescendants(tempPeopleWithParents[i], people);
+    //if (tempPeopleWithParents[i].id === person.id) {
+    for (let j = 0; j < Object(tempPeopleWithParents[i])["parents"].length; j++) {
+      if (person.id === Object(tempPeopleWithParents[i])["parents"][j]) {
+        //foundDescendants.push(tempPeopleWithParents[i].id);
+        foundDescendants.push(tempPeopleWithParents[i]);
+        //these foundDescendants may also be somebody's parent... so recursion???
+        //foundDescendants = getDescendants(tempPeopleWithParents[i], tempPeopleWithParents);
+      }
     }
   }
+
+
 
   return foundDescendants;
 }
