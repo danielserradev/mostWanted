@@ -17,6 +17,7 @@ function app(people) {
       switch (otherSearch){
 	  	  case 'yes':
 			searchResults = whichInfo(people);
+
 			break;
 		  case 'no':
 		  default:
@@ -29,18 +30,14 @@ function app(people) {
       break;
   }
 
-<<<<<<< Updated upstream
+
   if (people.length == 1) { //09-19-19 tlc
-    // Call the mainMenu function ONLY after you find the SINGLE person you are looking for
-    mainMenu(searchResults, people);
+	 //Call the mainMenu function ONLY after you find the SINGLE person you are looking for
+	 mainMenu(searchResults, people);
   }
   else {
     app(people);
   }
-=======
-  // Call the mainMenu function ONLY after you find the SINGLE person you are looking for
-  //mainMenu(searchResults, people);
->>>>>>> Stashed changes
 }
 
 // Menu function to call once you find who you are looking for
@@ -113,7 +110,7 @@ function promptFor(question, valid) {
   let response = "";//09-19-19 tlc
   do {
     //let response = prompt(question).trim();
-    response = prompt(question).trim();//{09-19-19 tlc}
+    response = prompt(question);//{09-19-19 tlc}
   } while (!response || !valid(response));
   return response;
 }
@@ -137,8 +134,6 @@ function chars(input) {
   //return true; // default validation only
   return tempResult;
 }
-
-<<<<<<< Updated upstream
 // helper function to pass in as default promptFor validation
 function nums(input) {
   let tempResult = true;
@@ -154,30 +149,38 @@ function nums(input) {
   return tempResult;
 }
 
-function newFunction() {
 
-=======
 function whichInfo(people) {
-	let otherType = promptFor("Please enter 'gender' if you know the gender, 'dob' if you know the date of birth", chars);
+	let otherType = promptFor("Please enter 'gender' if you know the gender, 'height' if you know the height, weight, eyecolor, occupation", chars);
 	let otherResults;
 	switch(otherType){
 		case "gender":
 		otherResults = searchByGender(people);
 		break;
-		case "dob":
-		console.log("dob");
+		case "height":
+		otherResults = searchByHeight(people);
+		break;
+		case "weight":
+		otherResults = searchByWeight(people);
+		break;
+		case "eyecolor":
+		otherResults = searchByEyeColor(people);
+		break;
+		case "occupation":
+		otherResults = searchByOccupation(people);
 		break;
 		defualt: 
 		return filterInfo(people);
-	}	
+	}
+	displayPeople(otherResults);
+
 	console.log("hello");
 	//mainMenu(otherResults, people);
->>>>>>> Stashed changes
 }
 
 function searchByGender(people){
 let gender = promptFor("is thier gender 'male' or 'female' ?", chars);
-let genderResults;
+
 
 let foundGender = people.filter(function(person){
 	if(person.gender.toLowerCase() === gender.toLowerCase()){
@@ -186,8 +189,62 @@ let foundGender = people.filter(function(person){
 	else{
 		return false;
 	}
-	
 });
-console.log(foundGender);
-//mainMenu(genderResults, people)
+return foundGender;
+}
+function searchByHeight(people){
+let height = parseInt(promptFor("Please enter the height in inches?", nums));
+ 
+
+let foundHeight = people.filter(function(person){
+	if(person.height === height){
+		return true;
+	}
+	else{
+		return false;
+	}	
+});
+return foundHeight;
+}
+function searchByWeight(people){
+let weight = parseInt(promptFor("Please enter the Weight?", nums));
+ 
+
+let foundWeight = people.filter(function(person){
+	if(person.weight === weight){
+		return true;
+	}
+	else{
+		return false;
+	}	
+});
+return foundWeight;
+}
+function searchByEyeColor(people){
+let eyeColor = (promptFor("Please enter the individuals eyecolor?", chars));
+ 
+
+let foundEyeColor = people.filter(function(person){
+	if(person.eyeColor === eyeColor){
+		return true;
+	}
+	else{
+		return false;
+	}	
+});
+return foundEyeColor;
+}
+function searchByOccupation(people){
+let occupation = (promptFor("Please enter the individuals occupation?", chars));
+ 
+
+let foundOccupation = people.filter(function(person){
+	if(person.occupation === occupation){
+		return true;
+	}
+	else{
+		return false;
+	}	
+});
+return foundOccupation;
 }
