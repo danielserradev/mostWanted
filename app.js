@@ -23,8 +23,8 @@ function app(people) {
           break;
     }
   if (people.length == 1) { //09-19-19 tlc
-	 //Call the mainMenu function ONLY after you find the SINGLE person you are looking for
-	 mainMenu(searchResults, people);
+    //Call the mainMenu function ONLY after you find the SINGLE person you are looking for
+    mainMenu(searchResults, people);
   }
   else {
     whichInfo(people);
@@ -292,15 +292,13 @@ function searchByIdNumber(people){
     mainMenu(foundSpouseId[0]);
     }
 
-function getDescendants(person, people) {
+
+function getDescendants(person, people, foundDescendants = []) {
   //filter people on (people.parents.length > 0)
   //add to an array of people having parents
-  //for each of those people having parents, return true if people[i].parents[j] === person.id;
-  //if true is returned, add the people.ID values to a new array called foundDescendants
-  //getDescendants should then return people filtered on the ids the foundDescendants.
+  //for each of those people having parents, add to foundDescendants if the ID of their parents matches person.id
+  //the new foundDescendants may also have descendants... so call getDescendants again.
 
-  //default
-  let foundDescendants = [];
   let tempPeopleWithParents = people.filter(function (people) {
     if (people.parents.length > 0) {
       return true;
@@ -312,13 +310,10 @@ function getDescendants(person, people) {
 
   //tempPeopleWithParents is an array of people having parents
   for (let i = 0; i < tempPeopleWithParents.length; i++) {
-    //if (tempPeopleWithParents[i].id === person.id) {
     for (let j = 0; j < Object(tempPeopleWithParents[i])["parents"].length; j++) {
       if (person.id === Object(tempPeopleWithParents[i])["parents"][j]) {
-        //foundDescendants.push(tempPeopleWithParents[i].id);
         foundDescendants.push(tempPeopleWithParents[i]);
-        //these foundDescendants may also be somebody's parent... so recursion???
-        //foundDescendants = getDescendants(tempPeopleWithParents[i], tempPeopleWithParents);
+        foundDescendants = getDescendants(tempPeopleWithParents[i], tempPeopleWithParents, foundDescendants);
       }
     }
   }
