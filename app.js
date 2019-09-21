@@ -3,7 +3,7 @@
 Build all of your functions for displaying and gathering information below (GUI).
 */
 // app is the function called to start the entire application
-function recursion(people){
+function recursion(people) {
   let searchType = promptFor("Do you know the name of the person you are looking for? Enter 'yes' or 'no'", yesNo).toLowerCase();
   let searchResults;
   switch (searchType) {
@@ -12,11 +12,11 @@ function recursion(people){
       mainMenu(searchResults, people);
       break;
     case "no":
-    whichInfo(people);
+      whichInfo(people);
     default:
-    whichInfo(people);
-    break;
-    }
+      whichInfo(people);
+      break;
+  }
 }
 function app(people) {
   // let searchType = promptFor("Do you know the name of the person you are looking for? Enter 'yes' or 'no'", yesNo).toLowerCase();
@@ -45,9 +45,9 @@ function app(people) {
   // else {
   //   whichInfo(people);
   // }
-// }
+  // }
 
-// mainMenu(searchResults, people);
+  // mainMenu(searchResults, people);
 }
 
 // Menu function to call once you find who you are looking for
@@ -68,6 +68,18 @@ function mainMenu(person, people) {
       break;
     case "family":
       // TODO: get person's family
+      let immediateFamily = [];
+      immediateFamily = getImmediateFamily(people, person);//09-20-19 tlc
+      if (immediateFamily.length > 1) {
+        displayPeople(immediateFamily)
+      }
+      else if (immediateFamily.length === 1) {
+        displayPerson(person);
+      }
+      else {
+        console.log("***PROBLEM AFTER CALL TO getImmediateFamily!!!***");
+      }
+
       break;
     case "descendants":
       // TODO: get person's descendants
@@ -82,7 +94,7 @@ function mainMenu(person, people) {
         displayPeople(descendantResults);
         //}
       }
-      else{
+      else {
         alert("this person has no descendants");
         mainMenu(person, people);
       }
@@ -176,140 +188,141 @@ function nums(input) {
 
 
 function whichInfo(people) {
-	let otherType = promptFor("Based on the list below, Please enter the information that you know about the individual you are looking for. \n name \n gender \n Date of Birth \n eyecolor \n occupation \n idnumber or spouseid \n height or weight", chars, nums, yesNo);
-	let otherResults;
-	switch(otherType){
+  let otherType = promptFor("Based on the list below, Please enter the information that you know about the individual you are looking for. \n name \n gender \n Date of Birth \n eyecolor \n occupation \n idnumber or spouseid \n height or weight", chars, nums, yesNo);
+  let otherResults;
+  switch (otherType) {
 
 
 
     case "name":
-    otherResults = searchByName(people);
-    mainMenu(otherResults, people);
-    break;
+      otherResults = searchByName(people);
+      mainMenu(otherResults, people);
+      break;
 
 
-		case "gender":
-		otherResults = searchByGender(people);
-		break;
-		case "height":
-		otherResults = searchByHeight(people);
-		break;
-		case "weight":
-		otherResults = searchByWeight(people);
-		break;
-		case "eyecolor":
-		otherResults = searchByEyeColor(people);
-		break;
-		case "occupation":
-		otherResults = searchByOccupation(people);
-    break;
+    case "gender":
+      otherResults = searchByGender(people);
+      break;
+    case "height":
+      otherResults = searchByHeight(people);
+      break;
+    case "weight":
+      otherResults = searchByWeight(people);
+      break;
+    case "eyecolor":
+      otherResults = searchByEyeColor(people);
+      break;
+    case "occupation":
+      otherResults = searchByOccupation(people);
+      break;
     case "idnumber":
-    otherResults = searchByIdNumber(people);
-    break;
+      otherResults = searchByIdNumber(people);
+      break;
     case "spouseid":
-    otherResults = searchBySpouseIdNumber(people);
-    break;
-		default:
-		return filterInfo(people);
-	}
+      otherResults = searchBySpouseIdNumber(people);
+      break;
+    default:
+      return filterInfo(people);
+  }
   displayPeople(otherResults);
   recursion(otherResults);
   whichInfo(otherResults);
 }
 
-function searchByGender(people){
-let gender = promptFor("is thier gender 'male' or 'female' ?", chars);
-let foundGender = people.filter(function(person){
-	if(person.gender.toLowerCase() === gender.toLowerCase()){
-		return true;
-	}
-	else{
-		return false;
-	}
-});
-return foundGender;
-}
-
-function searchByHeight(people){
-let height = parseInt(promptFor("Please enter the height in inches?", nums));
-let foundHeight = people.filter(function(person){
-	if(person.height === height){
-		return true;
-	}
-	else{
-		return false;
-	}	
-});
-return foundHeight;
-}
-
-function searchByWeight(people){
-let weight = parseInt(promptFor("Please enter the Weight?", nums));
-let foundWeight = people.filter(function(person){
-	if(person.weight === weight){
-		return true;
-	}
-	else{
-		return false;
-	}	
-});
-return foundWeight;
-}
-
-function searchByEyeColor(people){
-let eyeColor = promptFor("Please enter the individuals eyecolor?", chars);
-let foundEyeColor = people.filter(function(person){
-	if(person.eyeColor === eyeColor){
-		return true;
-	}
-	else{
-		return false;
-	}	
-});
-return foundEyeColor;
-}
-
-function searchByOccupation(people){
-let occupation = promptFor("Please enter the individuals occupation?", chars);
-let foundOccupation = people.filter(function(person){
-	if(person.occupation === occupation){
-		return true;
-	}
-	else{
-		return false;
-	}	
-});
-return foundOccupation;
-}
-
-function searchByIdNumber(people){
-  let id = parseInt(promptFor("Please enter the id #?", nums));  
-    let foundId = people.filter(function(person){
-    if(person.id == id){
-      
+function searchByGender(people) {
+  let gender = promptFor("is thier gender 'male' or 'female' ?", chars);
+  let foundGender = people.filter(function (person) {
+    if (person.gender.toLowerCase() === gender.toLowerCase()) {
       return true;
     }
-    else{
+    else {
       return false;
-    }	
+    }
   });
-  mainMenu(foundId[0]);
+  return foundGender;
 }
 
-  function searchBySpouseIdNumber(people){
-    let spouseId = parseInt(promptFor("Please enter the spouse's id #?", nums)); 
-    let foundSpouseId = people.filter(function(person){
-      if(person.currentSpouse == spouseId){
-        
-        return true;
-      }
-      else{
-        return false;
-      }	
-    });
-    let spouse = foundSpouseId.currentSpouse;
-    searchByIdNumber(people, true);
+function searchByHeight(people) {
+  let height = parseInt(promptFor("Please enter the height in inches?", nums));
+  let foundHeight = people.filter(function (person) {
+    if (person.height === height) {
+      return true;
     }
+    else {
+      return false;
+    }
+  });
+  return foundHeight;
+}
+
+function searchByWeight(people) {
+  let weight = parseInt(promptFor("Please enter the Weight?", nums));
+  let foundWeight = people.filter(function (person) {
+    if (person.weight === weight) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  });
+  return foundWeight;
+}
+
+function searchByEyeColor(people) {
+  let eyeColor = promptFor("Please enter the individuals eyecolor?", chars);
+  let foundEyeColor = people.filter(function (person) {
+    if (person.eyeColor === eyeColor) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  });
+  return foundEyeColor;
+}
+
+function searchByOccupation(people) {
+  let occupation = promptFor("Please enter the individuals occupation?", chars);
+  let foundOccupation = people.filter(function (person) {
+    if (person.occupation === occupation) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  });
+  return foundOccupation;
+}
+
+function searchByIdNumber(people) {
+  let id = parseInt(promptFor("Please enter the id #?", nums));
+  let foundId = people.filter(function (person) {
+    if (person.id == id) {
+
+      return true;
+    }
+    else {
+      return false;
+    }
+  });
+  //mainMenu(foundId[0]);
+  mainMenu(foundId[0], people);//09-20-19
+}
+
+function searchBySpouseIdNumber(people) {
+  let spouseId = parseInt(promptFor("Please enter the spouse's id #?", nums));
+  let foundSpouseId = people.filter(function (person) {
+    if (person.currentSpouse == spouseId) {
+
+      return true;
+    }
+    else {
+      return false;
+    }
+  });
+  let spouse = foundSpouseId.currentSpouse;
+  searchByIdNumber(people, true);
+}
 
 
 function getDescendants(person, people, foundDescendants = []) {
@@ -335,6 +348,75 @@ function getDescendants(person, people, foundDescendants = []) {
         foundDescendants = getDescendants(tempPeopleWithParents[i], tempPeopleWithParents, foundDescendants);
       }
     }
-  } 
+  }
   return foundDescendants;
+}
+
+function getImmediateFamily(people, person) {
+  //return this at the end
+  let foundImmediateFamily = [];
+
+  let tempFamilyPeople = people;
+  //spouse
+  //if the person has a spouse
+  if (person.currentSpouse !== '') {
+    //filter people on ID
+    let tempFamilySpouse = people.filter(function (person) {
+      if (people.id = person.currentSpouse) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    });
+    //add them if we found a person
+    if (people.length == 1) {
+      foundImmediateFamily.push(people[0]);
+    }
+  }
+
+  //parents
+  if (person.parents.length > 0) {
+    let tempParents = [];
+    for (let i = 0; i < person.parents.length; i++) {
+      tempParents.push(person.parents[i]);
+    }
+
+    let tempFamily = [];
+    tempFamily = people.filter(function (person) {
+      if (person.id == tempParents[0] || person.id == tempParents[1]) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    });
+
+    for (let j = 0; j < tempFamily.length; j++) {
+      foundImmediateFamily.push(tempFamily[j]);
+    }
+
+  }
+
+  //children(other people claiming 'person' as parent[0] or parent[1]), but not grandchildren
+  let tempPeopleWithParents = people.filter(function (person) {
+    if (person.parents.length > 0) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  });
+
+  //tempPeopleWithParents is an array of people having parents
+  for (let i = 0; i < tempPeopleWithParents.length; i++) {
+    for (let j = 0; j < Object(tempPeopleWithParents[i])["parents"].length; j++) {
+      if (person.id === Object(tempPeopleWithParents[i])["parents"][j]) {
+        foundImmediateFamily.push(tempPeopleWithParents[i]);
+
+      }
+    }
+  }
+  return foundImmediateFamily;
+
 }
