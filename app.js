@@ -57,7 +57,6 @@ function mainMenu(person, people) {
 
   if (!person) {
     alert("Could not find that individual.");
-    //return app(people); // restart
     return whichInfo(people); // restart
   }
 
@@ -73,7 +72,7 @@ function mainMenu(person, people) {
       immediateFamily = getImmediateFamily(people, person);//09-20-19 tlc
       if (immediateFamily.length > 1) {
         displayPeople(immediateFamily);
-      }
+        }
       else if (immediateFamily.length === 1) {
         //displayPerson(person);
         displayPerson(immediateFamily[0]);
@@ -82,7 +81,7 @@ function mainMenu(person, people) {
       else {
         console.log("***PROBLEM AFTER CALL TO getImmediateFamily!!!***");
       }
-
+      
       break;
     case "descendants":
       // TODO: get person's descendants
@@ -110,6 +109,7 @@ function mainMenu(person, people) {
     default:
       return mainMenu(person, people); // ask again
   }
+  mainMenu(person, people);
 }
 function searchByName(people) {
   let firstName = promptFor("What is the person's first name?", chars);
@@ -201,7 +201,6 @@ function whichInfo(people) {
       otherResults = searchByName(people);
       mainMenu(otherResults, people);
       break;
-
 
     case "gender":
       otherResults = searchByGender(people);
