@@ -57,7 +57,8 @@ function mainMenu(person, people) {
 
   if (!person) {
     alert("Could not find that individual.");
-    return app(people); // restart
+    //return app(people); // restart
+    return whichInfo(people); // restart
   }
 
   let displayOption = prompt("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
@@ -71,10 +72,12 @@ function mainMenu(person, people) {
       let immediateFamily = [];
       immediateFamily = getImmediateFamily(people, person);//09-20-19 tlc
       if (immediateFamily.length > 1) {
-        displayPeople(immediateFamily)
+        displayPeople(immediateFamily);
       }
       else if (immediateFamily.length === 1) {
-        displayPerson(person);
+        //displayPerson(person);
+        displayPerson(immediateFamily[0]);
+        //displayPerson(immediateFamily);
       }
       else {
         console.log("***PROBLEM AFTER CALL TO getImmediateFamily!!!***");
@@ -361,8 +364,12 @@ function getImmediateFamily(people, person) {
   //if the person has a spouse
   if (person.currentSpouse !== '') {
     //filter people on ID
-    let tempFamilySpouse = people.filter(function (person) {
-      if (people.id = person.currentSpouse) {
+    //let tempFamilySpouse = people.filter(function (person) {
+    //tempFamilyPeople = people.filter(function (person) {
+    //tempFamilyPeople = tempFamilyPeople.filter(function (person) {
+    tempFamilyPeople = tempFamilyPeople.filter(function (tempFamilyPerson) {
+      //if (people.id = person.currentSpouse) {
+      if (tempFamilyPerson.id === person.currentSpouse) {
         return true;
       }
       else {
@@ -370,8 +377,10 @@ function getImmediateFamily(people, person) {
       }
     });
     //add them if we found a person
-    if (people.length == 1) {
-      foundImmediateFamily.push(people[0]);
+    //if (people.length == 1) {
+    if (tempFamilyPeople.length == 1) {
+      //foundImmediateFamily.push(people[0]);
+      foundImmediateFamily.push(tempFamilyPeople[0]);
     }
   }
 
